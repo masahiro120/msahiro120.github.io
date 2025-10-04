@@ -90,8 +90,25 @@ def plot_quadratic(A, P, Q, N, M, func):
     x_mid = (N + M) / 2
     y_mid = (y_max + y_min) / 2
     
-    print(f"最大値　　 : ({x_max:.1f}, {y_max:.1f})")
-    print(f"最小値　　 : ({x_min:.1f}, {y_min:.1f})")
+    if x_mid == P:
+        if A > 0:
+            print(f"最大値　　 : ({x_max:.1f}, {y_max:.1f}), ({x_max+x_range:.1f}, {y_max:.1f})")
+            print(f"最小値　　 : ({x_min:.1f}, {y_min:.1f})")
+            plt.scatter([x_max], [y_max], color="red", zorder=5, label="Max")
+            plt.scatter([x_max+x_range], [y_max], color="red", zorder=5)
+            plt.scatter([x_min], [y_min], color="blue", zorder=5, label="Min")
+        else: 
+            print(f"最大値　　 : ({x_max:.1f}, {y_max:.1f})")
+            print(f"最小値　　 : ({x_min:.1f}, {y_min:.1f}), ({x_min+x_range:.1f}, {y_min:.1f})")
+            plt.scatter([x_max], [y_max], color="red", zorder=5, label="Max")
+            plt.scatter([x_min], [y_min], color="blue", zorder=5, label="Min")
+            plt.scatter([x_min+x_range], [y_min], color="blue", zorder=5)
+    else:
+        print(f"最大値　　 : ({x_max:.1f}, {y_max:.1f})")
+        print(f"最小値　　 : ({x_min:.1f}, {y_min:.1f})")
+        plt.scatter([x_max], [y_max], color="red", zorder=5, label="Max")
+        plt.scatter([x_min], [y_min], color="blue", zorder=5, label="Min")
+
     
     # グラフ描画
     # 座標平面の設定
@@ -106,8 +123,6 @@ def plot_quadratic(A, P, Q, N, M, func):
     plt.axvline(N, color="gray", linestyle="--")
     plt.axvline(M, color="gray", linestyle="--")
     
-    plt.scatter([x_max], [y_max], color="red", zorder=5, label="Max")
-    plt.scatter([x_min], [y_min], color="blue", zorder=5, label="Min")
 
     plt.title("Quadratic Function")
     plt.xlabel("x")
