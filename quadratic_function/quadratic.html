@@ -163,7 +163,6 @@
         await new Promise(resolve => setTimeout(resolve, 100));
       }
 
-      await pyodide.runPythonAsync("import matplotlib.pyplot as plt; plt.close('all')");
       
       let result = "";
 
@@ -173,7 +172,6 @@
           !document.getElementById("varN").value ||
           !document.getElementById("varM").value) {
         output.innerText = "Error: すべてに値を入力してください";
-      await pyodide.runPythonAsync("import matplotlib.pyplot as plt; plt.close('all')");
         output.classList.remove("hidden");
         return;
       }
@@ -230,9 +228,6 @@
         result = "エラー: " + error;
       }
 
-      // document.getElementById("output").innerText += result;
-
-        // 結果があれば表示
       output.innerText = result;
       if (result.trim() !== "") {
         output.classList.remove("hidden");
@@ -245,6 +240,25 @@
 
 <br><br>
 
-<!-- index.htmlへのリンク -->
-<a href="../index.html" style="font-size: 20px;">目次に戻る</a>
+<style>
+  #back-button {
+    position: fixed;   /* 画面に固定 */
+    top: 20px;         /* 上から20px */
+    right: 20px;        /* 右から20px */
+    font-size: 20px;
+    padding: 5px 10px;
+    background-color: #eee;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #000;
+    z-index: 1000;     /* 他の要素より前に表示 */
+  }
+  #back-button:hover {
+    background-color: #ddd;
+  }
+</style>
+
+<a href="../index.html" id="back-button">目次に戻る</a>
+
 </html>

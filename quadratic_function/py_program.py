@@ -84,13 +84,14 @@ def plot_quadratic(A, P, Q, N, M, func):
         x_min = M if A > 0 else N
         y_min = A * (x_min - P)**2 + Q
 
-    print(f"最大値　　 : ({x_max:.1f}, {y_max:.1f})")
-    print(f"最小値　　 : ({x_min:.1f}, {y_min:.1f})")
 
     x_range = M - N
     y_range = y_max - y_min
     x_mid = (N + M) / 2
     y_mid = (y_max + y_min) / 2
+    
+    print(f"最大値　　 : ({x_max:.1f}, {y_max:.1f})")
+    print(f"最小値　　 : ({x_min:.1f}, {y_min:.1f})")
     
     # グラフ描画
     # 座標平面の設定
