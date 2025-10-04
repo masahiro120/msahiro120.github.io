@@ -2,8 +2,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def plot_quadratic(A, B, C, D, E):
-    # print(f"関数: y = {A}x² + {B}x + {C}")
-    # 改行なし
     func = "y = "
     conp_square = func
     if A == 1:
@@ -81,9 +79,6 @@ def plot_quadratic(A, B, C, D, E):
         y_max = A * x_max**2 + B * x_max + C
         y_min = A * x_min**2 + B * x_min + C
 
-    # print(f"最大値: x = {x_max}, y = {y_max}")
-    # print(f"最大値: ({x_max}, {y_max})")
-    # 少数第2位まで
     print(f"最大値　　 : ({x_max:.1f}, {y_max:.1f})")
     print(f"最小値　　 : ({x_min:.1f}, {y_min:.1f})")
 
@@ -93,12 +88,10 @@ def plot_quadratic(A, B, C, D, E):
     y_mid = (y_max + y_min) / 2
     
     # グラフ描画
-    
     # 座標平面の設定
     plt.xlim(x_mid - x_range*0.6, x_mid + x_range*0.6)
     plt.ylim(y_mid - y_range*0.6, y_mid + y_range*0.6)
     
-    # plt.plot(x, y, label=f"y = {A}x² + {B}x + {C}")
     plt.plot(x, y, label=func)
     
     plt.axhline(0, color="black", linewidth=0.8)  # x軸
