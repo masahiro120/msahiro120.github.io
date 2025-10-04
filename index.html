@@ -21,17 +21,9 @@
 <body>
   <h1>二次関数 範囲計算</h1>
 
-  <!-- y= ax² + bx + c の範囲を計算します。<br> -->
   <label style="font-size: 24px;">y= ax² + bx + c の範囲を計算します。</label><br>
 
   <div>
-    <!-- <label for="varA">a:</label>
-    <input type="text" id="varA" value="1">
-    <label for="varB">b:</label>
-    <input type="text" id="varB" value="2">
-    <label for="varC">c:</label>
-    <input type="text" id="varC" value="0"> -->
-    <!-- サイズを大きく -->
     <label for="varA" style="font-size: 24px;">a:</label>
     <input type="text" id="varA" value="1" style="font-size: 40px; width: 100px;">
     <label for="varB" style="font-size: 24px;">b:</label>
@@ -56,11 +48,6 @@
     ※ 範囲の最小値は最大値より小さくしてください。
   </div>
 
-
-
-  <!-- <textarea id="code" rows="10" cols="80"></textarea><br> -->
-  <!-- <button id="run" onclick="main()" disabled>実行</button> -->
-   <!-- サイズを大きく -->
   <button id="run" onclick="main()" disabled style="font-size: 24px; padding: 10px 20px;">実行</button>
   
   <pre id="output"></pre>
@@ -70,20 +57,14 @@
     async function loadPyodideAndPackages() {
       pyodide = await loadPyodide();
       await pyodide.loadPackage(["matplotlib", "numpy"]);
-      // document.getElementById("output").textContent = "Pyodide loaded.";
       document.getElementById("run").disabled = false;
     }
 
     async function main() {
       document.getElementById("output").innerText = "";
-      // 読み込み終わるまで待つ
       while (!pyodide) {
         await new Promise(resolve => setTimeout(resolve, 100));
       }
-      // if (!pyodide) {
-      //   document.getElementById("output").textContent = "Pyodide の読み込みがまだ終わっていません";
-      //   return;
-      // }
       
       let result = "";
 
@@ -118,15 +99,9 @@
       let e = parseFloat(document.getElementById("varE").value);
 
       try {
-        // リポジトリ内の py_program.py を取得
         const res = await fetch("py_program.py");
         let code;
         if (res.ok) {
-          // code = "a = " + document.getElementById("varA").value + "\n" +
-          //        "b = " + document.getElementById("varB").value + "\n" +
-          //        "c = " + document.getElementById("varC").value + "\n" +
-          //        "d = " + document.getElementById("varD").value + "\n" +
-          //        "e = " + document.getElementById("varE").value + "\n" +
           code = "a = " + a + "\n" +
                  "b = " + b + "\n" +
                  "c = " + c + "\n" +
@@ -137,24 +112,13 @@
           code = "print('Error: ファイルを読み込めません')";
         }
 
-        // textarea の内容があれば優先する
-        // const userCode = document.getElementById("code").value.trim();
-        // if (userCode) {
-        //   code = userCode;
-        // }
-
-        // 出力キャプチャ
         pyodide.setStdout({ batched: (msg) => { result += msg + "\n"; } });
-
-        // Python 実行
         await pyodide.runPythonAsync(code);
 
       } catch (error) {
         result = "エラー: " + error;
       }
 
-      // document.getElementById("output").textContent = result;
-      // document.getElementById("output").textContent += result;
       document.getElementById("output").innerText += result;
     }
 
