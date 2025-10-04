@@ -56,9 +56,12 @@ def plot_quadratic(A, B, C, D, E):
         y_max = A * x_max**2 + B * x_max + C
         y_min = A * x_min**2 + B * x_min + C
 
-    print(f"最大値: x = {x_max}, y = {y_max}")
-    print(f"最小値: x = {x_min}, y = {y_min}")
-    
+    # print(f"最大値: x = {x_max}, y = {y_max}")
+    # print(f"最大値: ({x_max}, {y_max})")
+    # 少数第2位まで
+    print(f"最大値: ({x_max:.1f}, {y_max:.1f})")
+    print(f"最小値: ({x_min:.1f}, {y_min:.1f})")
+
     x_range = E - D
     y_range = y_max - y_min
     x_mid = (D + E) / 2
@@ -75,12 +78,12 @@ def plot_quadratic(A, B, C, D, E):
     plt.axhline(0, color="black", linewidth=0.8)  # x軸
     plt.axvline(0, color="black", linewidth=0.8)  # y軸
     
-    plt.axvline(D, color="red", linestyle="--", label=f"x = {D}")
-    plt.axvline(E, color="blue", linestyle="--", label=f"x = {E}")
+    plt.axvline(D, color="gray", linestyle="--")
+    plt.axvline(E, color="gray", linestyle="--")
     
-    plt.scatter([x_max], [y_max], color="red", zorder=5)
-    plt.scatter([x_min], [y_min], color="blue", zorder=5)
-    
+    plt.scatter([x_max], [y_max], color="red", zorder=5, label="Max")
+    plt.scatter([x_min], [y_min], color="blue", zorder=5, label="Min")
+
     plt.title("Quadratic Function")
     plt.xlabel("x")
     plt.ylabel("y")
