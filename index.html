@@ -81,6 +81,34 @@
       
       let result = "";
 
+      if (!document.getElementById("varA").value ||
+          !document.getElementById("varB").value ||
+          !document.getElementById("varC").value ||
+          !document.getElementById("varD").value ||
+          !document.getElementById("varE").value) {
+        document.getElementById("output").innerText = "Error: すべての変数に値を入力してください";
+        return;
+      }
+
+      if (isNaN(document.getElementById("varA").value) ||
+          isNaN(document.getElementById("varB").value) ||
+          isNaN(document.getElementById("varC").value) ||
+          isNaN(document.getElementById("varD").value) ||
+          isNaN(document.getElementById("varE").value)) {
+        document.getElementById("output").innerText = "Error: すべての変数に数値を入力してください";
+        return;
+      }
+
+      if (document.getElementById("varA").value == 0) {
+        document.getElementById("output").innerText = "Error: 変数aは0以外の値を入力してください";
+        return;
+      }
+
+      if (parseFloat(document.getElementById("varD").value) >= parseFloat(document.getElementById("varE").value)) {
+        document.getElementById("output").innerText = "Error: 範囲の最小値は最大値より小さくしてください";
+        return;
+      }
+
       try {
         // リポジトリ内の py_program.py を取得
         const res = await fetch("py_program.py");
