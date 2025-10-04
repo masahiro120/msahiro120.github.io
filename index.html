@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>タイトル</title>
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.27.2/full/pyodide.js"></script>
+</head>
+<body>
+  <h1>Python 実行テスト</h1>
+
+  <!-- <textarea id="code" rows="10" cols="80"></textarea><br> -->
+  <button onclick="main()">実行</button>
+
+  <pre id="output">loading...</pre>
+
+  <script type="text/javascript">
+    let pyodide;
+
+    async function loadPyodideAndPackages() {
+      pyodide = await loadPyodide();
+      await pyodide.loadPackage(["numpy", "pandas", "scikit-learn", "scipy"]);
+      document.getElementById("output").textContent = "Pyodide loaded.";
+    }
+
+    async function main() {
+      let result = "";
+
+      try {
+        // リポジトリ内の py_program.txt を取得
+        const res = await fetch("py_program.txt");
+        let code;
+        if (res.ok) {
+          code = await res.text();
+        } else {
+          code = "print('Error: ファイルを読み込めません')";
+        }
+
+        // textarea の内容があれば優先する
+        // const userCode = document.getElementById("code").value.trim();
+        // if (userCode) {
+        //   code = userCode;
+        // }
+
+        // 出力キャプチャ
+        pyodide.setStdout({ batched: (msg) => { result += msg + "\n"; } });
+
+        // Python 実行
+        await pyodide.runPythonAsync(code);
+
+      } catch (error) {
+        result = "エラー: " + error;
+      }
+
+      document.getElementById("output").textContent = result;
+    }
+
+    loadPyodideAndPackages();
+  </script>
+</body>
+</html>
