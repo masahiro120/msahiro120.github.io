@@ -4,33 +4,58 @@
   <meta charset="UTF-8">
   <title>タイトル</title>
   <script src="https://cdn.jsdelivr.net/pyodide/v0.27.2/full/pyodide.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    #output {
+      background-color: #f0f0f0;
+      padding: 10px;
+      border: 1px solid #ccc;
+      white-space: pre-wrap; /* Preserve whitespace and line breaks */
+      font-size: 18px; /* フォントサイズを大きく */
+    }
+  </style>
 </head>
 <body>
-  <h1>Python 実行テスト</h1>
+  <h1>二次関数 範囲計算</h1>
+
+  <!-- y= ax² + bx + c の範囲を計算します。<br> -->
+  <label style="font-size: 24px;">y= ax² + bx + c の範囲を計算します。</label><br>
 
   <div>
-    <label for="varA">変数a:</label>
-    <input type="text" id="varA" value="5">
+    <!-- <label for="varA">変数a:</label>
+    <input type="text" id="varA" value="1">
     <label for="varB">変数b:</label>
-    <input type="text" id="varB" value="10">
+    <input type="text" id="varB" value="2">
     <label for="varC">変数c:</label>
-    <input type="text" id="varC" value="15">
+    <input type="text" id="varC" value="0"> -->
+    <!-- サイズを大きく -->
+    <label for="varA" style="font-size: 24px;">変数a:</label>
+    <input type="text" id="varA" value="1" style="font-size: 24px; width: 100px;">
+    <label for="varB" style="font-size: 24px;">変数b:</label>
+    <input type="text" id="varB" value="2" style="font-size: 24px; width: 100px;">
+    <label for="varC" style="font-size: 24px;">変数c:</label>
+    <input type="text" id="varC" value="0" style="font-size: 24px; width: 100px;">
   </div>
 
   <br>
 
   <div>
-    <label for="varD">変数d:</label>
-    <input type="text" id="varD" value="20">
-    <label for="varE">変数e:</label>
-    <input type="text" id="varE" value="25">
+    <label style="font-size: 24px;">範囲:</label>
+    <input type="text" id="varD" value="-3" style="font-size: 24px; width: 100px;">
+    〜
+    <input type="text" id="varE" value="2" style="font-size: 24px; width: 100px;">
   </div>
   <br>
 
 
 
   <!-- <textarea id="code" rows="10" cols="80"></textarea><br> -->
-  <button id="run" onclick="main()" disabled>実行</button>
+  <!-- <button id="run" onclick="main()" disabled>実行</button> -->
+   <!-- サイズを大きく -->
+  <button id="run" onclick="main()" disabled style="font-size: 24px; padding: 10px 20px;">実行</button>
   
   <pre id="output"></pre>
   <script type="text/javascript">
@@ -53,10 +78,7 @@
       //   document.getElementById("output").textContent = "Pyodide の読み込みがまだ終わっていません";
       //   return;
       // }
-      document.getElementById("output").innerText = "y = " + 
-        document.getElementById("varA").value + "x² + " +
-        document.getElementById("varB").value + "x + " +
-        document.getElementById("varC").value + "\n";
+      
       let result = "";
 
       try {
