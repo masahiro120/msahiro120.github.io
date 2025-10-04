@@ -1,9 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-def plot_quadratic(A, B, C, N, M):
+def print_func(A, B, C):
     func = "y = "
-    conp_square = func
     if A == 1:
         func += "x² "
     elif A == -1:
@@ -26,58 +25,56 @@ def plot_quadratic(A, B, C, N, M):
             func += f"- {abs(C)} "
     print(f"関数　　　 : {func}")
 
-    if B/(2*A) != 0:
-        if A == 1:
-            conp_square += "(x "
-        elif A == -1:
-            conp_square += "-(x "
-        elif A != 0:
-            conp_square += f"{A}(x "
-        if B/(2*A) > 0:
-            conp_square += f"+ {B/(2*A)})²"
-        elif B/(2*A) < 0:
-            conp_square += f"- {abs(B/(2*A))})²"
-    else:
-        if A == 1:
-            conp_square += "x²"
-        elif A == -1:
-            conp_square += "-x²"
-        elif A != 0:
-            conp_square += f"{A}x²"
-    if C - (B**2)/(4*A) > 0:
-        conp_square += f" + {C - (B**2)/(4*A)}"
-    elif C - (B**2)/(4*A) < 0:
-        conp_square += f" - {abs(C - (B**2)/(4*A))}"
-    print(f"平方完成後 : {conp_square}")
+def complete_square(A, B, C):
+    P = B / (2 * A)
+    Q = C - (B**2) / (4 * A)
+    return P, Q
 
+def print_complete_square(A, P, Q):
+    func = "y = "
+    if A == 1:
+        func += "(x "
+    elif A == -1:
+        func += "-(x "
+    elif A != 0:
+        func += f"{A}(x "
+    if P > 0:
+        func += f"- {P})²"
+    elif P < 0:
+        func += f"+ {abs(P)})²"
+    if Q > 0:
+        func += f" + {Q}"
+    elif Q < 0:
+        func += f" - {abs(Q)}"
+    print(f"平方完成後 : {func}")
+    return func
+
+def plot_quadratic(A, P, Q, N, M, func):
     # plotをクリア
     plt.clf()
-    # x の範囲を決める（-10〜10を100点）
-    # x = np.linspace(-10, 10, 400)
     x = np.linspace(N, M, 400)
-    y = A * x**2 + B * x + C
+    y = A * (x - P)**2 + Q
 
-    axle = -B / (2 * A)
-    if N < axle < M and A > 0:
-        x_max = M if axle - N < M - axle else N
-        x_min = axle
-        y_max = A * x_max**2 + B * x_max + C
-        y_min = A * x_min**2 + B * x_min + C
-    elif N < axle < M and A < 0:
-        x_min = M if axle - N < M - axle else N
-        x_max = axle
-        y_min = A * x_min**2 + B * x_min + C
-        y_max = A * x_max**2 + B * x_max + C
-    elif axle <= N:
+    if N < P < M and A > 0:
+        x_max = M if P - N < M - P else N
+        y_max = A * (x_max - P)**2 + Q
+        x_min = P
+        y_min = Q
+    elif N < P < M and A < 0:
+        x_max = P
+        y_max = Q
+        x_min = M if P - N < M - P else N
+        y_min = A * (x_min - P)**2 + Q
+    elif P <= N:
         x_max = M if A > 0 else N
+        y_max = A * (x_max - P)**2 + Q
         x_min = N if A > 0 else M
-        y_max = A * x_max**2 + B * x_max + C
-        y_min = A * x_min**2 + B * x_min + C
-    elif axle >= M:
+        y_min = A * (x_min - P)**2 + Q
+    elif P >= M:
         x_max = N if A > 0 else M
+        y_max = A * (x_max - P)**2 + Q
         x_min = M if A > 0 else N
-        y_max = A * x_max**2 + B * x_max + C
-        y_min = A * x_min**2 + B * x_min + C
+        y_min = A * (x_min - P)**2 + Q
 
     print(f"最大値　　 : ({x_max:.1f}, {y_max:.1f})")
     print(f"最小値　　 : ({x_min:.1f}, {y_min:.1f})")
@@ -112,4 +109,9 @@ def plot_quadratic(A, B, C, N, M):
 
 
 if __name__ == "__main__":
-    plot_quadratic(a, b, c, n, m)
+    print(f"func_type = '{func_type}'")
+    if func_type == "abc":
+        print_func(a, b, c)
+        p, q = complete_square(a, b, c)
+    func = print_complete_square(a, p, q)
+    plot_quadratic(a, p, q, n, m, func)

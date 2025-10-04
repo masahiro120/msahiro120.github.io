@@ -24,9 +24,9 @@
 <body>
   <h1>二次関数 最大最小値計算</h1>
 
+  <input type="hidden" id="func_type" value="abc">
   <!-- ラジオボタン -->
   <div>
-    <pre id="type"></pre>
     <input type="radio" id="abc" name="formula" value="abc" style="font-size: 24px;" checked>
     <label for="abc" style="font-size: 24px;">y = ax² + bx + c</label>
     &nbsp;&nbsp;&nbsp;
@@ -97,13 +97,13 @@
           apqForm.classList.add("hidden");
           abcInfo.classList.remove("hidden");
           apqInfo.classList.add("hidden");
-          document.getElementById("type").innerText = "abc";
+          document.getElementById("func_type").value = "abc";
         } else {
           abcForm.classList.add("hidden");
           apqForm.classList.remove("hidden");
           abcInfo.classList.add("hidden");
           apqInfo.classList.remove("hidden");
-          document.getElementById("type").innerText = "apq";
+          document.getElementById("func_type").value = "apq";
         }
       });
     });
@@ -122,7 +122,7 @@
       
       let result = "";
 
-      let type = document.getElementById("type").innerText;
+      let func_type = document.getElementById("func_type").value;
 
       if (!document.getElementById("varA").value ||
           !document.getElementById("varN").value ||
@@ -167,7 +167,7 @@
                  "q = " + q + "\n" +
                  "n = " + n + "\n" +
                  "m = " + m + "\n" +
-                 "type = '" + type + "'\n" +
+                 "func_type = '" + func_type + "'\n" +
                  await res.text();
         } else {
           code = "print('Error: ファイルを読み込めません')";
