@@ -8,6 +8,11 @@
     body {
       font-family: Arial, sans-serif;
       margin: 20px;
+      text-align: center;
+    }
+    .form-wrapper {
+      display: inline-block;   /* 横幅は内容に応じる */
+      text-align: left;        /* 内部は左揃え */
     }
     #output {
       background-color: #f0f0f0;
@@ -15,6 +20,7 @@
       border: 1px solid #ccc;
       white-space: pre-wrap; /* Preserve whitespace and line breaks */
       font-size: 18px; /* フォントサイズを大きく */
+      text-align: left;
     }
     .hidden {
       display: none;
@@ -45,47 +51,51 @@
 
   <br>
 
-  <div>
-    <label for="varA" style="font-size: 24px;">a:</label>
-    <input type="text" id="varA" value="1" style="font-size: 40px; width: 100px;">
-  </div>
-  <br>
+  <div class="form-wrapper">
+    <div>
+      <label for="varA" style="font-size: 24px;">a:</label>
+      <input type="text" id="varA" style="font-size: 40px; width: 100px;">
+    </div>
+    <br>
 
-  <div id="abc-form">
-    <label for="varB" style="font-size: 24px;">b:</label>
-    <input type="text" id="varB" value="2" style="font-size: 40px; width: 100px;">
-    <label for="varC" style="font-size: 24px;">c:</label>
-    <input type="text" id="varC" value="0" style="font-size: 40px; width: 100px;">
+    <div id="abc-form">
+      <label for="varB" style="font-size: 24px;">b:</label>
+      <input type="text" id="varB" style="font-size: 40px; width: 100px;">
+      <label for="varC" style="font-size: 24px;">c:</label>
+      <input type="text" id="varC" style="font-size: 40px; width: 100px;">
+    </div>
+
+    <div id="apq-form" class="hidden">
+      <label for="varP" style="font-size: 24px;">p:</label>
+      <input type="text" id="varP" style="font-size: 40px; width: 100px;">
+      <label for="varQ" style="font-size: 24px;">q:</label>
+      <input type="text" id="varQ" style="font-size: 40px; width: 100px;">
+    </div>
+
+    <br>
+
+    <div>
+      <label style="font-size: 24px;">範囲:</label>
+      <input type="text" id="varN"  style="font-size: 40px; width: 100px;">
+      〜
+      <input type="text" id="varM" style="font-size: 40px; width: 100px;">
+    </div>
+    <br>
+
+    <div id="abc-info" style="font-size: 20px;">
+      ※ aは0以外の値を入力してください。<br>
+      ※ b、cが0のときは省略可能です。<br>
+      ※ 範囲の最小値は最大値より小さくしてください。
+    </div>
+
+    <div id="apq-info" class="hidden" style="font-size: 20px;">
+      ※ aは0以外の値を入力してください。<br>
+      ※ p、qが0のときは省略可能です。<br>
+      ※ 範囲の最小値は最大値より小さくしてください。
+    </div>
   </div>
 
-  <div id="apq-form" class="hidden">
-    <label for="varP" style="font-size: 24px;">p:</label>
-    <input type="text" id="varP" value="1" style="font-size: 40px; width: 100px;">
-    <label for="varQ" style="font-size: 24px;">q:</label>
-    <input type="text" id="varQ" value="0" style="font-size: 40px; width: 100px;">
-  </div>
-
-  <br>
-
-  <div>
-    <label style="font-size: 24px;">範囲:</label>
-    <input type="text" id="varN" value="-3" style="font-size: 40px; width: 100px;">
-    〜
-    <input type="text" id="varM" value="2" style="font-size: 40px; width: 100px;">
-  </div>
-  <br>
-
-  <div id="abc-info" style="font-size: 20px;">
-    ※ aは0以外の値を入力してください。<br>
-    ※ b、cが0のときは省略可能です。<br>
-    ※ 範囲の最小値は最大値より小さくしてください。
-  </div>
-
-  <div id="apq-info" class="hidden" style="font-size: 20px;">
-    ※ aは0以外の値を入力してください。<br>
-    ※ p、qが0のときは省略可能です。<br>
-    ※ 範囲の最小値は最大値より小さくしてください。
-  </div>
+  <br><br>
 
   <button id="run" onclick="main()" disabled style="font-size: 24px; padding: 10px 20px;">実行</button>
   
