@@ -35,22 +35,30 @@
   </div>
   <br>
   
-  <!-- ax² + bx + c 用フォーム -->
-  <div id="abc-form">
+  <div id="abc-msg">
     <label style="font-size: 24px;">y = ax² + bx + c の範囲を計算します。</label><br>
+  </div>
+
+  <div id="apq-msg" class="hidden">
+    <label style="font-size: 24px;">y = a(x - p)² + q の範囲を計算します。</label><br>
+  </div>
+
+  <br>
+
+  <div>
     <label for="varA" style="font-size: 24px;">a:</label>
     <input type="text" id="varA" value="1" style="font-size: 40px; width: 100px;">
+  </div>
+  <br>
+
+  <div id="abc-form">
     <label for="varB" style="font-size: 24px;">b:</label>
     <input type="text" id="varB" value="2" style="font-size: 40px; width: 100px;">
     <label for="varC" style="font-size: 24px;">c:</label>
     <input type="text" id="varC" value="0" style="font-size: 40px; width: 100px;">
   </div>
 
-  <!-- a(x-p)² + q 用フォーム -->
   <div id="apq-form" class="hidden">
-    <label style="font-size: 24px;">y = a(x - p)² + q の範囲を計算します。</label><br>
-    <label for="varA2" style="font-size: 24px;">a:</label>
-    <input type="text" id="varA2" value="1" style="font-size: 40px; width: 100px;">
     <label for="varP" style="font-size: 24px;">p:</label>
     <input type="text" id="varP" value="1" style="font-size: 40px; width: 100px;">
     <label for="varQ" style="font-size: 24px;">q:</label>
@@ -85,26 +93,44 @@
   <script type="text/javascript">
     let pyodide;
 
+    document.querySelectorAll('input[type="text"]').forEach(input => {
+      input.addEventListener('input', () => {
+        document.getElementById("output").innerText = "";
+      });
+    });
+
     // ラジオボタン切り替えで表示変更
     document.querySelectorAll('input[name="formula"]').forEach(radio => {
       radio.addEventListener('change', () => {
+        const abcMsg = document.getElementById("abc-msg");
+        const apqMsg = document.getElementById("apq-msg");
         const abcForm = document.getElementById("abc-form");
         const apqForm = document.getElementById("apq-form");
         const abcInfo = document.getElementById("abc-info");
         const apqInfo = document.getElementById("apq-info");
+        document.getElementById("output").innerText = "";
         if (document.getElementById("abc").checked) {
+          abcMsg.classList.remove("hidden");
+          apqMsg.classList.add("hidden");
           abcForm.classList.remove("hidden");
           apqForm.classList.add("hidden");
           abcInfo.classList.remove("hidden");
           apqInfo.classList.add("hidden");
           document.getElementById("func_type").value = "abc";
         } else {
+          abcMsg.classList.add("hidden");
+          apqMsg.classList.remove("hidden");
           abcForm.classList.add("hidden");
           apqForm.classList.remove("hidden");
           abcInfo.classList.add("hidden");
           apqInfo.classList.remove("hidden");
           document.getElementById("func_type").value = "apq";
         }
+        document.getElementById("varA").value = "";
+        document.getElementById("varB").value = "";
+        document.getElementById("varC").value = "";
+        document.getElementById("varP").value = "";
+        document.getElementById("varQ").value = "";
       });
     });
 

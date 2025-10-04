@@ -32,12 +32,20 @@ def complete_square(A, B, C):
 
 def print_complete_square(A, P, Q):
     func = "y = "
-    if A == 1:
-        func += "(x "
-    elif A == -1:
-        func += "-(x "
-    elif A != 0:
-        func += f"{A}(x "
+    if P != 0:
+        if A == 1:
+            func += "(x "
+        elif A == -1:
+            func += "-(x "
+        elif A != 0:
+            func += f"{A}(x "
+    else:
+        if A == 1:
+            func += "x² "
+        elif A == -1:
+            func += "-x² "
+        elif A != 0:
+            func += f"{A}x² "
     if P > 0:
         func += f"- {P})²"
     elif P < 0:
