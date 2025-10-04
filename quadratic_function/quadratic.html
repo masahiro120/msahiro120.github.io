@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>タイトル</title>
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.27.2/full/pyodide.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      text-align: center;
+    }
+    .form-wrapper {
+      display: inline-block;   /* 横幅は内容に応じる */
+      text-align: left;        /* 内部は左揃え */
+    }
+    #output {
+      background-color: #f0f0f0;
+      padding: 10px;
+      border: 1px solid #ccc;
+      white-space: pre-wrap; /* Preserve whitespace and line breaks */
+      font-size: 18px; /* フォントサイズを大きく */
+      text-align: left;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>二次関数 最大最小値計算</h1>
+
+  <input type="hidden" id="func_type" value="abc">
+  <!-- ラジオボタン -->
+  <div>
+    <input type="radio" id="abc" name="formula" value="abc" style="font-size: 24px;" checked>
+    <label for="abc" style="font-size: 24px;">y = ax² + bx + c</label>
+    &nbsp;&nbsp;&nbsp;
+    <input type="radio" id="apq" name="formula" value="apq" style="font-size: 24px;">
+    <label for="apq" style="font-size: 24px;">y = a(x - p)² + q</label>
+  </div>
+  <br>
+  
+  <div id="abc-msg">
+    <label style="font-size: 24px;">y = ax² + bx + c の範囲を計算します。</label><br>
+  </div>
+
+  <div id="apq-msg" class="hidden">
+    <label style="font-size: 24px;">y = a(x - p)² + q の範囲を計算します。</label><br>
+  </div>
+
+  <br>
+
+  <div class="form-wrapper">
+    <div>
+      <label for="varA" style="font-size: 24px;">a:</label>
+      <input type="text" id="varA" style="font-size: 40px; width: 100px;">
+    </div>
+    <br>
+
+    <div id="abc-form">
+      <label for="varB" style="font-size: 24px;">b:</label>
+      <input type="text" id="varB" style="font-size: 40px; width: 100px;">
+      <label for="varC" style="font-size: 24px;">c:</label>
+      <input type="text" id="varC" style="font-size: 40px; width: 100px;">
+    </div>
+
+    <div id="apq-form" class="hidden">
+      <label for="varP" style="font-size: 24px;">p:</label>
+      <input type="text" id="varP" style="font-size: 40px; width: 100px;">
+      <label for="varQ" style="font-size: 24px;">q:</label>
+      <input type="text" id="varQ" style="font-size: 40px; width: 100px;">
+    </div>
+
+    <br>
+
+    <div>
+      <label style="font-size: 24px;">範囲:</label>
+      <input type="text" id="varN"  style="font-size: 40px; width: 100px;">
+      〜
+      <input type="text" id="varM" style="font-size: 40px; width: 100px;">
+    </div>
+    <br>
+
+    <div id="abc-info" style="font-size: 20px;">
+      ※ aは0以外の値を入力してください。<br>
+      ※ b、cが0のときは省略可能です。<br>
+      ※ 範囲の最小値は最大値より小さくしてください。
+    </div>
+
+    <div id="apq-info" class="hidden" style="font-size: 20px;">
+      ※ aは0以外の値を入力してください。<br>
+      ※ p、qが0のときは省略可能です。<br>
+      ※ 範囲の最小値は最大値より小さくしてください。
+    </div>
+  </div>
+
+  <br><br>
+
+  <button id="run" onclick="main()" disabled style="font-size: 24px; padding: 10px 20px;">実行</button>
+  
+  <!-- <pre id="output"></pre> -->
+  <pre id="output" class="hidden"></pre>
+  <script type="text/javascript">
+    let pyodide;
+
+    document.querySelectorAll('input[type="text"]').forEach(input => {
+      input.addEventListener('input', () => {
+        document.getElementById("output").innerText = "";
+      });
+    });
+
+    // ラジオボタン切り替えで表示変更
+    document.querySelectorAll('input[name="formula"]').forEach(radio => {
+      radio.addEventListener('change', () => {
+        const abcMsg = document.getElementById("abc-msg");
+        const apqMsg = document.getElementById("apq-msg");
+        const abcForm = document.getElementById("abc-form");
+        const apqForm = document.getElementById("apq-form");
+        const abcInfo = document.getElementById("abc-info");
+        const apqInfo = document.getElementById("apq-info");
+        const output = document.getElementById("output");
+    
+        output.innerText = "";
+        output.classList.add("hidden");
+    
+        if (document.getElementById("abc").checked) {
+          abcMsg.classList.remove("hidden");
+          apqMsg.classList.add("hidden");
+          abcForm.classList.remove("hidden");
+          apqForm.classList.add("hidden");
+          abcInfo.classList.remove("hidden");
+          apqInfo.classList.add("hidden");
+          document.getElementById("func_type").value = "abc";
+        } else {
+          abcMsg.classList.add("hidden");
+          apqMsg.classList.remove("hidden");
+          abcForm.classList.add("hidden");
+          apqForm.classList.remove("hidden");
+          abcInfo.classList.add("hidden");
+          apqInfo.classList.remove("hidden");
+          document.getElementById("func_type").value = "apq";
+        }
+        document.getElementById("varA").value = "";
+        document.getElementById("varB").value = "";
+        document.getElementById("varC").value = "";
+        document.getElementById("varP").value = "";
+        document.getElementById("varQ").value = "";
+      });
+    });
+
+    async function loadPyodideAndPackages() {
+      pyodide = await loadPyodide();
+      await pyodide.loadPackage(["matplotlib", "numpy"]);
+      document.getElementById("run").disabled = false;
+    }
+
+    async function main() {
+      const output = document.getElementById("output");
+      output.innerText = "";
+      output.classList.add("hidden"); 
+      while (!pyodide) {
+        await new Promise(resolve => setTimeout(resolve, 100));
+      }
+
+      await pyodide.runPythonAsync("import matplotlib.pyplot as plt; plt.close('all')");
+      
+      let result = "";
+
+      let func_type = document.getElementById("func_type").value;
+
+      if (!document.getElementById("varA").value ||
+          !document.getElementById("varN").value ||
+          !document.getElementById("varM").value) {
+        output.innerText = "Error: すべてに値を入力してください";
+      await pyodide.runPythonAsync("import matplotlib.pyplot as plt; plt.close('all')");
+        output.classList.remove("hidden");
+        return;
+      }
+
+      if (isNaN(document.getElementById("varA").value) ||
+          isNaN(document.getElementById("varN").value) ||
+          isNaN(document.getElementById("varM").value)) {
+        output.innerText = "Error: すべてに数値を入力してください";
+        output.classList.remove("hidden");
+        return;
+      }
+
+      if (document.getElementById("varA").value == 0) {
+        output.innerText = "Error: aは0以外の値を入力してください";
+        output.classList.remove("hidden");
+        return;
+      }
+
+      if (parseFloat(document.getElementById("varN").value) >= parseFloat(document.getElementById("varM").value)) {
+        output.innerText = "Error: 範囲の最小値は最大値より小さくしてください";
+        output.classList.remove("hidden");
+        return;
+      }
+
+      let a = parseFloat(document.getElementById("varA").value);
+      let b = parseFloat(document.getElementById("varB").value || 0);
+      let c = parseFloat(document.getElementById("varC").value || 0);
+      let p = parseFloat(document.getElementById("varP").value || 0);
+      let q = parseFloat(document.getElementById("varQ").value || 0);
+      let n = parseFloat(document.getElementById("varN").value);
+      let m = parseFloat(document.getElementById("varM").value);
+
+      try {
+        const res = await fetch("py_program.py");
+        let code;
+        if (res.ok) {
+          code = "a = " + a + "\n" +
+                 "b = " + b + "\n" +
+                 "c = " + c + "\n" +
+                 "p = " + p + "\n" +
+                 "q = " + q + "\n" +
+                 "n = " + n + "\n" +
+                 "m = " + m + "\n" +
+                 "func_type = '" + func_type + "'\n" +
+                 await res.text();
+        } else {
+          code = "print('Error: ファイルを読み込めません')";
+        }
+
+        pyodide.setStdout({ batched: (msg) => { result += msg + "\n"; } });
+        await pyodide.runPythonAsync(code);
+
+      } catch (error) {
+        result = "エラー: " + error;
+      }
+
+      // document.getElementById("output").innerText += result;
+
+        // 結果があれば表示
+      output.innerText = result;
+      if (result.trim() !== "") {
+        output.classList.remove("hidden");
+      }
+    }
+
+    loadPyodideAndPackages();
+  </script>
+</body>
+</html>
