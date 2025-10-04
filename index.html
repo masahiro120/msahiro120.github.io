@@ -32,8 +32,7 @@
   <!-- <textarea id="code" rows="10" cols="80"></textarea><br> -->
   <button onclick="main()">実行</button>
 
-  <pre id="output">loading...</pre>
-
+  <pre id="output"></pre>
   <script type="text/javascript">
     let pyodide;
 
@@ -44,6 +43,10 @@
     }
 
     async function main() {
+      document.getElementById("output").textContent = "y = " + 
+        document.getElementById("varA").value + "x^2 + " +
+        document.getElementById("varB").value + "x + " +
+        document.getElementById("varC").value + "\n";
       let result = "";
 
       try {
@@ -72,7 +75,8 @@
         result = "エラー: " + error;
       }
 
-      document.getElementById("output").textContent = result;
+      // document.getElementById("output").textContent = result;
+      document.getElementById("output").textContent += result;
     }
 
     loadPyodideAndPackages();
