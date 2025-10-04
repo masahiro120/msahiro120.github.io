@@ -26,7 +26,7 @@ def print_func(A, B, C):
     print(f"関数　　　 : {func}")
 
 def complete_square(A, B, C):
-    P = B / (2 * A)
+    P = -1 * B / (2 * A)
     Q = C - (B**2) / (4 * A)
     return P, Q
 
