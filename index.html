@@ -111,25 +111,24 @@
         return;
       }
 
-      if (!document.getElementById("varB").value) {
-        document.getElementById("varB").value = 0;
-      }
-
-      if (!document.getElementById("varC").value) {
-        document.getElementById("varC").value = 0;
-      }
+      let a = parseFloat(document.getElementById("varA").value);
+      let b = parseFloat(document.getElementById("varB").value || 0);
+      let c = parseFloat(document.getElementById("varC").value || 0);
+      let d = parseFloat(document.getElementById("varD").value);
+      let e = parseFloat(document.getElementById("varE").value);
 
       try {
         // リポジトリ内の py_program.py を取得
         const res = await fetch("py_program.py");
         let code;
         if (res.ok) {
-          code = "a = " + document.getElementById("varA").value + "\n" +
-                 "b = " + document.getElementById("varB").value + "\n" +
-                 "c = " + document.getElementById("varC").value + "\n" +
-                 "d = " + document.getElementById("varD").value + "\n" +
-                 "e = " + document.getElementById("varE").value + "\n" +
-                 await res.text();
+          // code = "a = " + document.getElementById("varA").value + "\n" +
+          //        "b = " + document.getElementById("varB").value + "\n" +
+          //        "c = " + document.getElementById("varC").value + "\n" +
+          //        "d = " + document.getElementById("varD").value + "\n" +
+          //        "e = " + document.getElementById("varE").value + "\n" +
+          code = `a = ${a}, b = ${b}, c = ${c}, d = ${d}, e = ${e}
+                 ${await res.text()}`;
         } else {
           code = "print('Error: ファイルを読み込めません')";
         }
