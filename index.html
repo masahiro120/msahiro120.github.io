@@ -18,7 +18,7 @@
 
     async function loadPyodideAndPackages() {
       pyodide = await loadPyodide();
-      await pyodide.loadPackage(["numpy", "pandas", "scikit-learn", "scipy"]);
+      await pyodide.loadPackage(["matplotlib", "numpy", "pandas", "scikit-learn", "scipy"]);
       document.getElementById("output").textContent = "Pyodide loaded.";
     }
 
