@@ -30,21 +30,31 @@
 
 
   <!-- <textarea id="code" rows="10" cols="80"></textarea><br> -->
-  <button onclick="main()">実行</button>
-
+  <button id="run" onclick="main()" disabled>実行</button>
+  
   <pre id="output"></pre>
   <script type="text/javascript">
     let pyodide;
 
     async function loadPyodideAndPackages() {
       pyodide = await loadPyodide();
-      await pyodide.loadPackage(["matplotlib", "numpy", "pandas", "scikit-learn", "scipy"]);
-      document.getElementById("output").textContent = "Pyodide loaded.";
+      await pyodide.loadPackage(["matplotlib", "numpy"]);
+      // document.getElementById("output").textContent = "Pyodide loaded.";
+      document.getElementById("run").disabled = false;
     }
 
     async function main() {
-      document.getElementById("output").textContent = "y = " + 
-        document.getElementById("varA").value + "x^2 + " +
+      document.getElementById("output").innerText = "";
+      // 読み込み終わるまで待つ
+      while (!pyodide) {
+        await new Promise(resolve => setTimeout(resolve, 100));
+      }
+      // if (!pyodide) {
+      //   document.getElementById("output").textContent = "Pyodide の読み込みがまだ終わっていません";
+      //   return;
+      // }
+      document.getElementById("output").innerText = "y = " + 
+        document.getElementById("varA").value + "x² + " +
         document.getElementById("varB").value + "x + " +
         document.getElementById("varC").value + "\n";
       let result = "";
@@ -81,7 +91,8 @@
       }
 
       // document.getElementById("output").textContent = result;
-      document.getElementById("output").textContent += result;
+      // document.getElementById("output").textContent += result;
+      document.getElementById("output").innerText += result;
     }
 
     loadPyodideAndPackages();
