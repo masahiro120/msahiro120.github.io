@@ -89,7 +89,8 @@
 
   <button id="run" onclick="main()" disabled style="font-size: 24px; padding: 10px 20px;">実行</button>
   
-  <pre id="output"></pre>
+  <!-- <pre id="output"></pre> -->
+  <pre id="output" class="hidden"></pre>
   <script type="text/javascript">
     let pyodide;
 
@@ -108,7 +109,11 @@
         const apqForm = document.getElementById("apq-form");
         const abcInfo = document.getElementById("abc-info");
         const apqInfo = document.getElementById("apq-info");
-        document.getElementById("output").innerText = "";
+        const output = document.getElementById("output");
+    
+        output.innerText = "";
+        output.classList.add("hidden");
+    
         if (document.getElementById("abc").checked) {
           abcMsg.classList.remove("hidden");
           apqMsg.classList.add("hidden");
@@ -141,10 +146,14 @@
     }
 
     async function main() {
-      document.getElementById("output").innerText = "";
+      const output = document.getElementById("output");
+      output.innerText = "";
+      output.classList.add("hidden"); 
       while (!pyodide) {
         await new Promise(resolve => setTimeout(resolve, 100));
       }
+
+      await pyodide.runPythonAsync("import matplotlib.pyplot as plt; plt.close('all')");
       
       let result = "";
 
@@ -153,24 +162,29 @@
       if (!document.getElementById("varA").value ||
           !document.getElementById("varN").value ||
           !document.getElementById("varM").value) {
-        document.getElementById("output").innerText = "Error: すべてに値を入力してください";
+        output.innerText = "Error: すべてに値を入力してください";
+      await pyodide.runPythonAsync("import matplotlib.pyplot as plt; plt.close('all')");
+        output.classList.remove("hidden");
         return;
       }
 
       if (isNaN(document.getElementById("varA").value) ||
           isNaN(document.getElementById("varN").value) ||
           isNaN(document.getElementById("varM").value)) {
-        document.getElementById("output").innerText = "Error: すべてに数値を入力してください";
+        output.innerText = "Error: すべてに数値を入力してください";
+        output.classList.remove("hidden");
         return;
       }
 
       if (document.getElementById("varA").value == 0) {
-        document.getElementById("output").innerText = "Error: aは0以外の値を入力してください";
+        output.innerText = "Error: aは0以外の値を入力してください";
+        output.classList.remove("hidden");
         return;
       }
 
       if (parseFloat(document.getElementById("varN").value) >= parseFloat(document.getElementById("varM").value)) {
-        document.getElementById("output").innerText = "Error: 範囲の最小値は最大値より小さくしてください";
+        output.innerText = "Error: 範囲の最小値は最大値より小さくしてください";
+        output.classList.remove("hidden");
         return;
       }
 
@@ -206,7 +220,13 @@
         result = "エラー: " + error;
       }
 
-      document.getElementById("output").innerText += result;
+      // document.getElementById("output").innerText += result;
+
+        // 結果があれば表示
+      output.innerText = result;
+      if (result.trim() !== "") {
+        output.classList.remove("hidden");
+      }
     }
 
     loadPyodideAndPackages();
