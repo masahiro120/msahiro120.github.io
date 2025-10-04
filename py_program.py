@@ -1,4 +1,5 @@
 def main():
+    print(f"a: {a}, b: {b}, c: {c}, d: {d}, e: {e}")
     # import matplotlib. pyplot as pltimport numpy as np import pandas as pd from sklearn. svm import SVR from scipy.optimize import minimize
     import matplotlib.pyplot as plt
     import numpy as np
