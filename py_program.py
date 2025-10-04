@@ -25,8 +25,7 @@ def plot_quadratic(A, B, C, D, E):
             func += f"+ {C} "
         else:
             func += f"- {abs(C)} "
-    print(f"関数: {func}")  # 改行
-    print(f"x の範囲: {D} 〜 {E}")
+    print(f"関数: {func}")
     # plotをクリア
     plt.clf()
     # x の範囲を決める（-10〜10を100点）
