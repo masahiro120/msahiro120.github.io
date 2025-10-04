@@ -26,6 +26,7 @@
 
   <!-- ラジオボタン -->
   <div>
+    <pre id="type"></pre>
     <input type="radio" id="abc" name="formula" value="abc" style="font-size: 24px;" checked>
     <label for="abc" style="font-size: 24px;">y = ax² + bx + c</label>
     &nbsp;&nbsp;&nbsp;
@@ -60,9 +61,9 @@
 
   <div>
     <label style="font-size: 24px;">範囲:</label>
-    <input type="text" id="varD" value="-3" style="font-size: 40px; width: 100px;">
+    <input type="text" id="varN" value="-3" style="font-size: 40px; width: 100px;">
     〜
-    <input type="text" id="varE" value="2" style="font-size: 40px; width: 100px;">
+    <input type="text" id="varM" value="2" style="font-size: 40px; width: 100px;">
   </div>
   <br>
 
@@ -96,11 +97,13 @@
           apqForm.classList.add("hidden");
           abcInfo.classList.remove("hidden");
           apqInfo.classList.add("hidden");
+          document.getElementById("type").innerText = "abc";
         } else {
           abcForm.classList.add("hidden");
           apqForm.classList.remove("hidden");
           abcInfo.classList.add("hidden");
           apqInfo.classList.remove("hidden");
+          document.getElementById("type").innerText = "apq";
         }
       });
     });
@@ -119,16 +122,18 @@
       
       let result = "";
 
+      let type = document.getElementById("type").innerText;
+
       if (!document.getElementById("varA").value ||
-          !document.getElementById("varD").value ||
-          !document.getElementById("varE").value) {
+          !document.getElementById("varN").value ||
+          !document.getElementById("varM").value) {
         document.getElementById("output").innerText = "Error: すべてに値を入力してください";
         return;
       }
 
       if (isNaN(document.getElementById("varA").value) ||
-          isNaN(document.getElementById("varD").value) ||
-          isNaN(document.getElementById("varE").value)) {
+          isNaN(document.getElementById("varN").value) ||
+          isNaN(document.getElementById("varM").value)) {
         document.getElementById("output").innerText = "Error: すべてに数値を入力してください";
         return;
       }
@@ -138,7 +143,7 @@
         return;
       }
 
-      if (parseFloat(document.getElementById("varD").value) >= parseFloat(document.getElementById("varE").value)) {
+      if (parseFloat(document.getElementById("varN").value) >= parseFloat(document.getElementById("varM").value)) {
         document.getElementById("output").innerText = "Error: 範囲の最小値は最大値より小さくしてください";
         return;
       }
@@ -146,8 +151,10 @@
       let a = parseFloat(document.getElementById("varA").value);
       let b = parseFloat(document.getElementById("varB").value || 0);
       let c = parseFloat(document.getElementById("varC").value || 0);
-      let d = parseFloat(document.getElementById("varD").value);
-      let e = parseFloat(document.getElementById("varE").value);
+      let p = parseFloat(document.getElementById("varP").value || 0);
+      let q = parseFloat(document.getElementById("varQ").value || 0);
+      let n = parseFloat(document.getElementById("varN").value);
+      let m = parseFloat(document.getElementById("varM").value);
 
       try {
         const res = await fetch("py_program.py");
@@ -156,8 +163,11 @@
           code = "a = " + a + "\n" +
                  "b = " + b + "\n" +
                  "c = " + c + "\n" +
-                 "d = " + d + "\n" +
-                 "e = " + e + "\n" +
+                 "p = " + p + "\n" +
+                 "q = " + q + "\n" +
+                 "n = " + n + "\n" +
+                 "m = " + m + "\n" +
+                 "type = '" + type + "'\n" +
                  await res.text();
         } else {
           code = "print('Error: ファイルを読み込めません')";
