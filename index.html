@@ -25,18 +25,18 @@
   <label style="font-size: 24px;">y= ax² + bx + c の範囲を計算します。</label><br>
 
   <div>
-    <!-- <label for="varA">変数a:</label>
+    <!-- <label for="varA">a:</label>
     <input type="text" id="varA" value="1">
-    <label for="varB">変数b:</label>
+    <label for="varB">b:</label>
     <input type="text" id="varB" value="2">
-    <label for="varC">変数c:</label>
+    <label for="varC">c:</label>
     <input type="text" id="varC" value="0"> -->
     <!-- サイズを大きく -->
-    <label for="varA" style="font-size: 24px;">変数a:</label>
+    <label for="varA" style="font-size: 24px;">a:</label>
     <input type="text" id="varA" value="1" style="font-size: 40px; width: 100px;">
-    <label for="varB" style="font-size: 24px;">変数b:</label>
+    <label for="varB" style="font-size: 24px;">b:</label>
     <input type="text" id="varB" value="2" style="font-size: 40px; width: 100px;">
-    <label for="varC" style="font-size: 24px;">変数c:</label>
+    <label for="varC" style="font-size: 24px;">c:</label>
     <input type="text" id="varC" value="0" style="font-size: 40px; width: 100px;">
   </div>
 
@@ -49,6 +49,12 @@
     <input type="text" id="varE" value="2" style="font-size: 40px; width: 100px;">
   </div>
   <br>
+
+  <div style="font-size: 20px;">
+    ※ aは0以外の値を入力してください。<br>
+    ※ b、cが0のときは省略可能です。<br>
+    ※ 範囲の最小値は最大値より小さくしてください。
+  </div>
 
 
 
@@ -82,31 +88,35 @@
       let result = "";
 
       if (!document.getElementById("varA").value ||
-          !document.getElementById("varB").value ||
-          !document.getElementById("varC").value ||
           !document.getElementById("varD").value ||
           !document.getElementById("varE").value) {
-        document.getElementById("output").innerText = "Error: すべての変数に値を入力してください";
+        document.getElementById("output").innerText = "Error: すべてに値を入力してください";
         return;
       }
 
       if (isNaN(document.getElementById("varA").value) ||
-          isNaN(document.getElementById("varB").value) ||
-          isNaN(document.getElementById("varC").value) ||
           isNaN(document.getElementById("varD").value) ||
           isNaN(document.getElementById("varE").value)) {
-        document.getElementById("output").innerText = "Error: すべての変数に数値を入力してください";
+        document.getElementById("output").innerText = "Error: すべてに数値を入力してください";
         return;
       }
 
       if (document.getElementById("varA").value == 0) {
-        document.getElementById("output").innerText = "Error: 変数aは0以外の値を入力してください";
+        document.getElementById("output").innerText = "Error: aは0以外の値を入力してください";
         return;
       }
 
       if (parseFloat(document.getElementById("varD").value) >= parseFloat(document.getElementById("varE").value)) {
         document.getElementById("output").innerText = "Error: 範囲の最小値は最大値より小さくしてください";
         return;
+      }
+
+      if (!document.getElementById("varB").value) {
+        document.getElementById("varB").value = 0;
+      }
+
+      if (!document.getElementById("varC").value) {
+        document.getElementById("varC").value = 0;
       }
 
       try {

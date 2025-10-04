@@ -26,7 +26,7 @@ def plot_quadratic(A, B, C, D, E):
             func += f"+ {C} "
         else:
             func += f"- {abs(C)} "
-    print(f"関数: {func}")
+    print(f"関数　　　 : {func}")
 
     if B/(2*A) != 0:
         if A == 1:
@@ -50,7 +50,7 @@ def plot_quadratic(A, B, C, D, E):
         conp_square += f" + {C - (B**2)/(4*A)}"
     elif C - (B**2)/(4*A) < 0:
         conp_square += f" - {abs(C - (B**2)/(4*A))}"
-    print(f"平方完成: {conp_square}")
+    print(f"平方完成後 : {conp_square}")
 
     # plotをクリア
     plt.clf()
@@ -84,8 +84,8 @@ def plot_quadratic(A, B, C, D, E):
     # print(f"最大値: x = {x_max}, y = {y_max}")
     # print(f"最大値: ({x_max}, {y_max})")
     # 少数第2位まで
-    print(f"最大値: ({x_max:.1f}, {y_max:.1f})")
-    print(f"最小値: ({x_min:.1f}, {y_min:.1f})")
+    print(f"最大値　　 : ({x_max:.1f}, {y_max:.1f})")
+    print(f"最小値　　 : ({x_min:.1f}, {y_min:.1f})")
 
     x_range = E - D
     y_range = y_max - y_min
