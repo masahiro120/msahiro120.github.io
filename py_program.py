@@ -109,7 +109,6 @@ def plot_quadratic(A, P, Q, N, M, func):
 
 
 if __name__ == "__main__":
-    print(f"func_type = '{func_type}'")
     if func_type == "abc":
         print_func(a, b, c)
         p, q = complete_square(a, b, c)
