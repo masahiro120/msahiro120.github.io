@@ -127,8 +127,12 @@
           //        "c = " + document.getElementById("varC").value + "\n" +
           //        "d = " + document.getElementById("varD").value + "\n" +
           //        "e = " + document.getElementById("varE").value + "\n" +
-          code = `a = ${a}, b = ${b}, c = ${c}, d = ${d}, e = ${e}
-                 ${await res.text()}`;
+          code = "a = " + a + "\n" +
+                 "b = " + b + "\n" +
+                 "c = " + c + "\n" +
+                 "d = " + d + "\n" +
+                 "e = " + e + "\n" +
+                 await res.text();
         } else {
           code = "print('Error: ファイルを読み込めません')";
         }
