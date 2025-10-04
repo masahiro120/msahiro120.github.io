@@ -5,7 +5,8 @@ def plot_quadratic(A, B, C, D, E):
     # print(f"関数: y = {A}x² + {B}x + {C}")
     # 改行なし
     func = "y = "
-    if A ==1:
+    conp_square = func
+    if A == 1:
         func += "x² "
     elif A == -1:
         func += "- x² "
@@ -26,6 +27,31 @@ def plot_quadratic(A, B, C, D, E):
         else:
             func += f"- {abs(C)} "
     print(f"関数: {func}")
+
+    if B/(2*A) != 0:
+        if A == 1:
+            conp_square += "(x "
+        elif A == -1:
+            conp_square += "-(x "
+        elif A != 0:
+            conp_square += f"{A}(x "
+        if B/(2*A) > 0:
+            conp_square += f"+ {B/(2*A)})²"
+        elif B/(2*A) < 0:
+            conp_square += f"- {abs(B/(2*A))})²"
+    else:
+        if A == 1:
+            conp_square += "x²"
+        elif A == -1:
+            conp_square += "-x²"
+        elif A != 0:
+            conp_square += f"{A}x²"
+    if C - (B**2)/(4*A) > 0:
+        conp_square += f" + {C - (B**2)/(4*A)}"
+    elif C - (B**2)/(4*A) < 0:
+        conp_square += f" - {abs(C - (B**2)/(4*A))}"
+    print(f"平方完成: {conp_square}")
+
     # plotをクリア
     plt.clf()
     # x の範囲を決める（-10〜10を100点）
