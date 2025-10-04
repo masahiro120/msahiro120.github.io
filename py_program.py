@@ -4,28 +4,28 @@ import matplotlib.pyplot as plt
 def plot_quadratic(A, B, C, D, E):
     # print(f"関数: y = {A}x² + {B}x + {C}")
     # 改行なし
-    print(f"関数: y = ", end=' ')
+    func = "y = "
     if A ==1:
-        print(f"x²", end=' ')
+        func += "x² "
     elif A == -1:
-        print(f"- x²", end=' ')
+        func += "- x² "
     elif A != 0:
-        print(f"{A}x²", end=' ')
+        func += f"{A}x² "
     if B != 0:
         if B == 0:
             pass
         elif B > 0:
-            print(f"+ {B}x", end=' ')
+            func += f"+ {B}x "
         else:
-            print(f"- {abs(B)}x", end=' ')
+            func += f"- {abs(B)}x "
     if C != 0:
         if C == 0:
             pass
         elif C > 0:
-            print(f"+ {C}", end=' ')
+            func += f"+ {C} "
         else:
-            print(f"- {abs(C)}", end=' ')
-    print()  # 改行
+            func += f"- {abs(C)} "
+    print(f"関数: {func}")  # 改行
     print(f"x の範囲: {D} 〜 {E}")
     # plotをクリア
     plt.clf()
@@ -73,7 +73,8 @@ def plot_quadratic(A, B, C, D, E):
     plt.xlim(x_mid - x_range*0.6, x_mid + x_range*0.6)
     plt.ylim(y_mid - y_range*0.6, y_mid + y_range*0.6)
     
-    plt.plot(x, y, label=f"y = {A}x² + {B}x + {C}")
+    # plt.plot(x, y, label=f"y = {A}x² + {B}x + {C}")
+    plt.plot(x, y, label=func)
     
     plt.axhline(0, color="black", linewidth=0.8)  # x軸
     plt.axvline(0, color="black", linewidth=0.8)  # y軸
