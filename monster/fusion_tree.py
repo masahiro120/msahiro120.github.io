@@ -8,6 +8,9 @@ def load_monsters_from_csv(filename):
         for row in reader:
             name = row["モンスター名"]
             monsters[name] = {
+                "No": row["No"] if row["No"] else None,
+                "他国": row["他国"] if row["他国"] else None,
+                "所持": row["所持"] if row["所持"] else None,
                 "入手方法": row["入手方法"] if row["入手方法"] else None,
                 "配合1": row["配合1"] if row["配合1"] else None,
                 "配合2": row["配合2"] if row["配合2"] else None,
@@ -47,10 +50,16 @@ def print_tree(name, prefix="", first_call=True, last_monster=True):
 
     # 入手方法があるなら表示して終了
     if info["入手方法"]:
-        print(f"{name} ── {info['入手方法']}")
+        if info["所持"] == "T":
+            print(f"{name} ── {info['入手方法']}（所持済）")
+        else:
+            print(f"{name} ── {info['入手方法']}")
         return
     if info["所持"] == "T":
         print(f"{name} ── 所持済")
+        return
+    if info["他国"] == "入手可":
+        print(f"{name} ── 他国")
         return
     
     # next_prefix = prefix + "　" * (len(name) + 2)
