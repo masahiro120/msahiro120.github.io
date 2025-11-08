@@ -49,7 +49,12 @@
 
     async function loadPyodideAndPackages() {
       pyodide = await loadPyodide();
-      await pyodide.loadPackage(["matplotlib", "numpy"]);
+      // await pyodide.loadPackage(["matplotlib", "numpy"]);
+      await pyodide.loadPackage("micropip");
+      await pyodide.runPythonAsync(`
+      import micropip
+      await micropip.install("anytree")
+      `);
       document.getElementById("run").disabled = false;
     }
 
@@ -82,7 +87,7 @@
         await loadCsvInPyodide("A_rank.csv", "./monsters_list/A_rank.csv");
         await loadCsvInPyodide("S_rank.csv", "./monsters_list/S_rank.csv");
         await loadCsvInPyodide("SS_rank.csv", "./monsters_list/SS_rank.csv");
-        const res = await fetch("py_program.py");
+        const res = await fetch("py_program_v2.py");
         let code;
         if (res.ok) {
           code = "target = '" + input_monster_name + "'\n" +
