@@ -36,63 +36,14 @@ csv_file_list = [
 
 monsters = {}
 for csv_file in csv_file_list:
-    monsters.update(load_monsters_from_csv(csv_file))
+    # 読み込んだファイルにランク情報を追加
+    rank = csv_file.split("/")[-1].split("_")[0]  # ファイル名からランクを取得
+    temp_monsters = load_monsters_from_csv(csv_file)
+    for name, info in temp_monsters.items():
+        info["ランク"] = rank  # ランク情報を追加
+    monsters.update(temp_monsters)
 
 print(f"Loaded {len(monsters)} monsters.")
-
-
-def print_tree(name, prefix="", first_call=True, last_monster=True):
-    """モンスターの配合経路を枝付きで右方向に展開"""
-    if name not in monsters:
-        print(prefix + name + "（データなし）")
-        return
-
-    info = monsters[name]
-
-    # 入手方法があるなら表示して終了
-    if info["入手方法"]:
-        if info["所持"] == "T":
-            print(f"{name} ── {info['入手方法']}（所持済）")
-        else:
-            print(f"{name} ── {info['入手方法']}")
-        return
-    if info["所持"] == "T":
-        print(f"{name} ── 所持済")
-        return
-    if info["他国"] == "入手可":
-        print(f"{name} ── 他国")
-        return
-    
-    # next_prefix = prefix + "　" * (len(name) + 2)
-    if first_call:
-        next_prefix = prefix + " " * (len(name) * 2)
-    else:
-        if last_monster:
-            next_prefix = prefix + "    " + " " * (len(name) * 2)
-        else:
-            next_prefix = prefix + " │  " + " " * (len(name) * 2)
-    # print(f"len(name): {len(name)}, prefix: '{prefix}', next_prefix: '{next_prefix}'")
-
-    print(name, end="")
-    if info["配合1"]:
-        line = f" ┬─ "
-        print(line, end="")
-        print_tree(info["配合1"], next_prefix, first_call=False, last_monster=False)
-    if info["配合2"]:
-        line = f" └─ " if not info["配合4"] else f" ├─ "
-        print(next_prefix + line, end="")
-        if not info["配合4"]:
-            print_tree(info["配合2"], next_prefix, first_call=False, last_monster=True)
-        else:
-            print_tree(info["配合2"], next_prefix, first_call=False, last_monster=False)
-    if info["配合3"]:
-        line = f" ├─ "
-        print(next_prefix + line, end="")
-        print_tree(info["配合3"], next_prefix, first_call=False, last_monster=False)
-    if info["配合4"]:
-        line = f" └─ "
-        print(next_prefix + line, end="")
-        print_tree(info["配合4"], next_prefix, first_call=False, last_monster=True)
 
 def build_tree(name):
     """モンスター名からanytreeのNodeを作る再帰関数"""
@@ -101,8 +52,11 @@ def build_tree(name):
     
     info = monsters[name]
 
-    # 入手方法・所持・他国などの情報をノード名に追加
-    label = name
+    # モンスター名 + ランク
+    rank = info.get("ランク", "")
+    label = f"{name} [{rank}]" if rank else name
+
+    # 入手方法・所持・他国などの情報をラベルに追加
     if info["入手方法"]:
         if info["所持"] == "T":
             label += f" ── {info['入手方法']}（所持済）"
