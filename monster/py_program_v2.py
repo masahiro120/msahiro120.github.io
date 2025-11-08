@@ -47,7 +47,12 @@ csv_file_list = [
 
 monsters = {}
 for csv_file in csv_file_list:
-    monsters.update(load_monsters_from_csv(csv_file))
+    # 読み込んだファイルにランク情報を追加
+    rank = csv_file.split("/")[-1].split("_")[0]  # ファイル名からランクを取得
+    temp_monsters = load_monsters_from_csv(csv_file)
+    for name, info in temp_monsters.items():
+        info["ランク"] = rank  # ランク情報を追加
+    monsters.update(temp_monsters)
 
 print(f"Loaded {len(monsters)} monsters.")
 
@@ -116,8 +121,11 @@ def build_tree(name):
     
     info = monsters[name]
 
-    # 入手方法・所持・他国などの情報をノード名に追加
-    label = name
+    # モンスター名 + ランク
+    rank = info.get("ランク", "")
+    label = f"{name} [{rank}]" if rank else name
+
+    # 入手方法・所持・他国などの情報をラベルに追加
     if info["入手方法"]:
         if info["所持"] == "T":
             label += f" ── {info['入手方法']}（所持済）"
