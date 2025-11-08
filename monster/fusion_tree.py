@@ -48,7 +48,10 @@ def print_tree(name, prefix="", first_call=True, last_monster=True):
     # 入手方法があるなら表示して終了
     if info["入手方法"]:
         print(f"{name} ── {info['入手方法']}")
-        return    
+        return
+    if info["所持"] == "T":
+        print(f"{name} ── 所持済")
+        return
     
     # next_prefix = prefix + "　" * (len(name) + 2)
     if first_call:
