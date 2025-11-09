@@ -79,7 +79,7 @@ def build_tree(name):
         return Node(label)
     if info["他国"] == "入手可":
         label += " ── 他国"
-        return Node(label)
+        # return Node(label)
 
     # Nodeを作成
     node = Node(label)
