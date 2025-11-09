@@ -44,6 +44,9 @@ for csv_file in csv_file_list:
     monsters.update(temp_monsters)
 
 print(f"Loaded {len(monsters)} monsters.")
+# 所持済みの数をカウント
+owned_count = sum(1 for info in monsters.values() if info["所持"] == "T")
+print(f"Owned monsters: {owned_count}")
 
 def build_tree(name):
     """モンスター名からanytreeのNodeを作る再帰関数"""
@@ -90,7 +93,7 @@ def extract_rank(node_name):
 if __name__ == "__main__":
     target = input("モンスター名を入力してください: ")
     # target = "キラーパンサー"
-    
+
     root_node = build_tree(target)
     
     for pre, fill, node in RenderTree(root_node):
