@@ -87,7 +87,7 @@
         await loadCsvInPyodide("A_rank.csv", "./monsters_list/A_rank.csv");
         await loadCsvInPyodide("S_rank.csv", "./monsters_list/S_rank.csv");
         await loadCsvInPyodide("SS_rank.csv", "./monsters_list/SS_rank.csv");
-        const res = await fetch("py_program_v2.py");
+        const res = await fetch("py_program_v3.py");
         let code;
         if (res.ok) {
           code = "target = '" + input_monster_name + "'\n" +
