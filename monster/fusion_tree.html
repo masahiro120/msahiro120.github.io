@@ -31,7 +31,18 @@
 <body>
   <h1>テリワンSP 配合図検索</h1>
 
-  <div class="form-wrapper">
+  <input type="hidden" id="func_type" value="abc">
+  <!-- ラジオボタン -->
+  <div>
+    <input type="radio" id="target" name="formula" value="target" style="font-size: 24px;" checked>
+    <label for="target" style="font-size: 24px;">個別検索</label>
+    &nbsp;&nbsp;&nbsp;
+    <input type="radio" id="all" name="formula" value="all" style="font-size: 24px;">
+    <label for="all" style="font-size: 24px;">未所持すべて表示</label>
+  </div>
+  <br>
+
+  <div id="target-form" class="form-wrapper">
     <div>
       <label for="input_monster_name" style="font-size: 24px;">モンスター名：</label>
       <input type="text" id="input_monster_name" style="font-size: 40px; width: 300px;">
@@ -46,6 +57,25 @@
   <pre id="output" class="hidden"></pre>
   <script type="text/javascript">
     let pyodide;
+
+    // ラジオボタン切り替えで表示変更
+    document.querySelectorAll('input[name="formula"]').forEach(radio => {
+      radio.addEventListener('change', () => {
+        const targetForm = document.getElementById("target-form");
+        const output = document.getElementById("output");
+    
+        // output.innerText = "";
+        // output.classList.add("hidden");
+    
+        if (document.getElementById("target").checked) {
+          targetForm.classList.remove("hidden");
+          document.getElementById("func_type").value = "target";
+        } else {
+          targetForm.classList.add("hidden");
+          document.getElementById("func_type").value = "all";
+        }
+      });
+    });
 
     async function loadPyodideAndPackages() {
       pyodide = await loadPyodide();
@@ -76,6 +106,7 @@
       
       let result = "";
 
+      let func_type = document.getElementById("func_type").value;
       let input_monster_name = document.getElementById("input_monster_name").value;
 
       try {
@@ -90,7 +121,8 @@
         const res = await fetch("py_program_v2.py");
         let code;
         if (res.ok) {
-          code = "target = '" + input_monster_name + "'\n" +
+          code = "func_type = '" + func_type + "'\n" +
+                 "target = '" + input_monster_name + "'\n" +
                  await res.text();
         } else {
           code = "print('Error: ファイルを読み込めません')";

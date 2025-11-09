@@ -102,23 +102,24 @@ if __name__ == "__main__":
     # target = input("モンスター名を入力してください: ")
     # target = "キラーパンサー"
 
-    root_node = build_tree(target)
-    
-    for pre, fill, node in RenderTree(root_node):
-        print(f"{pre}{node.name}")
+    if func_type == "target":
+        root_node = build_tree(target)
+        
+        for pre, fill, node in RenderTree(root_node):
+            print(f"{pre}{node.name}")
 
-    leaves = [node for node in root_node.descendants if not node.children]
+        leaves = [node for node in root_node.descendants if not node.children]
 
-    rank_order = {"SS": 1, "S": 2, "A": 3, "B": 4, "C": 5, "D": 6, "E": 7, "F": 8, None: 9}
-    leaves_sorted = sorted(leaves, key=lambda n: rank_order.get(extract_rank(n.name), 9))
+        rank_order = {"SS": 1, "S": 2, "A": 3, "B": 4, "C": 5, "D": 6, "E": 7, "F": 8, None: 9}
+        leaves_sorted = sorted(leaves, key=lambda n: rank_order.get(extract_rank(n.name), 9))
 
-    print("\n【必要モンスター一覧（ランク順）】")
-    for leaf in leaves_sorted:
-        print(f"・{leaf.name}")
-    
-    for name, info in monsters.items():
-        if info["所持"] != "T":
-            print("\n=== 配合ツリー ===")
-            root_node = build_tree(name)
-            for pre, fill, node in RenderTree(root_node):
-                print(f"{pre}{node.name}")
+        print("\n【必要モンスター一覧（ランク順）】")
+        for leaf in leaves_sorted:
+            print(f"・{leaf.name}")
+    else:
+        for name, info in monsters.items():
+            if info["所持"] != "T":
+                print("\n=== 配合ツリー ===")
+                root_node = build_tree(name)
+                for pre, fill, node in RenderTree(root_node):
+                    print(f"{pre}{node.name}")
