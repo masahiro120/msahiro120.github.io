@@ -81,14 +81,26 @@ def build_tree(name):
 
     return node
 
-# 実行例
+def extract_rank(node_name):
+    """ノード名の末尾 [] からランクを抽出"""
+    if "[" in node_name and "]" in node_name:
+        return node_name.split("[")[-1].split("]")[0].strip()
+    return None
+
 if __name__ == "__main__":
     target = input("モンスター名を入力してください: ")
     # target = "キラーパンサー"
-    # print()
-    # print_tree(target)
-
+    
     root_node = build_tree(target)
     
     for pre, fill, node in RenderTree(root_node):
         print(f"{pre}{node.name}")
+    
+    leaves = [node for node in root_node.descendants if not node.children]
+
+    rank_order = {"SS": 1, "S": 2, "A": 3, "B": 4, "C": 5, "D": 6, "E": 7, "F": 8, None: 9}
+    leaves_sorted = sorted(leaves, key=lambda n: rank_order.get(extract_rank(n.name), 9))
+
+    print("\n【必要モンスター一覧（ランク順）】")
+    for leaf in leaves_sorted:
+        print(f"・{leaf.name}")
