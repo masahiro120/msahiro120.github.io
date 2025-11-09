@@ -115,3 +115,10 @@ if __name__ == "__main__":
     print("\n【必要モンスター一覧（ランク順）】")
     for leaf in leaves_sorted:
         print(f"・{leaf.name}")
+    
+    for name, info in monsters.items():
+        if info["所持"] != "T":
+            print("\n=== 配合ツリー ===")
+            root_node = build_tree(name)
+            for pre, fill, node in RenderTree(root_node):
+                print(f"{pre}{node.name}")
