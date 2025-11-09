@@ -65,7 +65,8 @@ def build_tree(name):
 
     # モンスター名 + ランク
     rank = info.get("ランク", "")
-    label = f"{name} [{rank}]" if rank else name
+    no = info.get("No", "")
+    label = f"{name} [{rank} {no}]" if rank else name
 
     # 入手方法・所持・他国などの情報をラベルに追加
     if info["入手方法"]:
