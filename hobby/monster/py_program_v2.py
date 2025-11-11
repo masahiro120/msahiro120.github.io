@@ -171,12 +171,17 @@ if __name__ == "__main__":
         # --- まとめて出力 ---
         print("\n\n【全モンスターに必要な素材一覧（重複除去・入手方法順）】")
         
-        # 入手方法順にソート
+        def get_obtain_method(name):
+            # "モンスター名 [ランク No]" → "モンスター名" に整形
+            base_name = name.split(" [")[0]
+            # 入手方法を取得（存在しない or None の場合は空文字扱い）
+            method = monsters.get(base_name, {}).get("入手方法")
+            return method if method else ""  # None → ""
+        
+        # 入手方法（空文字は末尾）でソート
         all_required_leaves_sorted = sorted(
             all_required_leaves,
-            key=lambda name: monsters.get(
-                name.split(" [")[0], {}  # "モンスター名 [ランク No]" → "モンスター名" に変換
-            ).get("入手方法", "zzz")     # 入手方法が空なら末尾に回す
+            key=lambda n: (get_obtain_method(n) == "", get_obtain_method(n))
         )
         
         for leaf_name in all_required_leaves_sorted:
