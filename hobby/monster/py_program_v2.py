@@ -157,13 +157,27 @@ if __name__ == "__main__":
                 all_required_leaves.add(leaf.name)
 
         # --- まとめて出力 ---
-        print("\n\n【全モンスターに必要な素材一覧（重複除去・ランク順）】")
+        #print("\n\n【全モンスターに必要な素材一覧（重複除去・ランク順）】")
 
         # ランク順にソート
+        #all_required_leaves_sorted = sorted(
+            #all_required_leaves,
+            #key=lambda name: rank_order.get(extract_rank(name), 9)
+        #)
+
+        #for leaf_name in all_required_leaves_sorted:
+            #print(f"・{leaf_name}")
+
+        print("\n\n【全モンスターに必要な素材一覧（重複除去・ランク順＋名前順）】")
+        
+        # ランク＋名前順でソート
         all_required_leaves_sorted = sorted(
             all_required_leaves,
-            key=lambda name: rank_order.get(extract_rank(name), 9)
+            key=lambda name: (
+                rank_order.get(extract_rank(name), 9),  # ランク順
+                name                                    # 名前順
+            )
         )
-
+        
         for leaf_name in all_required_leaves_sorted:
             print(f"・{leaf_name}")
